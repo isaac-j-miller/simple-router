@@ -1,0 +1,65 @@
+{
+  "name": "simple-router",
+  "version": "1.0.0",
+  "description": "Regex-based path routing",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isaac-j-miller/simple-router.git"
+  },
+  "author": "Isaac Miller",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/isaac-j-miller/simple-router/issues"
+  },
+  "homepage": "https://github.com/isaac-j-miller/simple-router#readme",
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.79",
+    "@types/cookie": "^0.4.1",
+    "@types/seedrandom": "^3.0.1",
+    "@types/uuid": "^8.3.1",
+    "aws-lambda": "^1.0.6",
+    "cookie": "^0.4.1",
+    "seedrandom": "^3.0.5",
+    "typescript": "^4.3.5",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/plugin-proposal-class-properties": "^7.14.5",
+    "@babel/plugin-proposal-decorators": "^7.14.5",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.14.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.14.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.14.5",
+    "@babel/preset-env": "^7.14.5",
+    "@babel/preset-typescript": "^7.13.0",
+    "@types/express": "^4.17.13",
+    "@types/adm-zip": "^0.4.34",
+    "@types/jest": "^26.0.24",
+    "@types/sinon": "^10.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "adm-zip": "^0.5.5",
+    "express": "^4.17.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-no-only-tests": "^2.6.0",
+    "jest": "^27.0.6",
+    "sinon": "^11.1.2",
+    "tsconfig-paths": "^3.10.1",
+    "nodemon": "^2.0.12",
+    "prettier": "^2.3.2",
+    "ts-jest": "^27.0.3",
+    "ts-node": "^10.1.0",
+    "webpack": "^5.32.0",
+    "webpack-cli": "^4.6.0",
+    "webpack-node-externals": "^3.0.0"
+  }
+}
