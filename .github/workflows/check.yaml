@@ -1,12 +1,7 @@
 name: PR-CI
 
 # Controls when the workflow will run
-on:
-  push
-  pull_request
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+on: [push, pull_request]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -22,4 +17,3 @@ jobs:
 
       - name: Prettier, jest, lint, static type check
         run: pnpm check
-        
