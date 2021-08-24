@@ -1,4 +1,4 @@
-name: PR-CI
+name: Publish
 
 # Controls when the workflow will run
 on:
@@ -12,9 +12,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  publish:
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -22,11 +20,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
       - name: Install with pnpm
         run: curl -f https://get.pnpm.io/v6.7.js | node - add --global pnpm && pnpm install
+
+      - name: Build
+        run: pnpm build
 
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_SECRET }}
-          package: dist/package.json
+          package: ./dist/package.json
