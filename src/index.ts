@@ -1,5 +1,13 @@
 import { createJsonResponse, assertNever } from "src/util";
-import { BaseRequest, HttpMethod, Params, Route, RouterRequestFactory, RouterResult, RouterResultFactory, RouteTransform } from "src/types";
+import {
+  BaseRequest,
+  Params,
+  Route,
+  RouterRequestFactory,
+  RouterResult,
+  RouterResultFactory,
+  RouteTransform,
+} from "src/types";
 
 const trim = (str: string, start: string, end: string): string => {
   if (str[0] === start) {
@@ -69,22 +77,18 @@ export function transformRoute<T extends string>(matcher: string): RouteTransfor
   };
 }
 export class Router<T, U, V> {
-  constructor(private pathMethodGetter: (req: T) => BaseRequest, private requestFactory: RouterRequestFactory<T>, private resultFactory: RouterResultFactory<U>, private routes: Route[]) {}
-  private getPathAndMethod(preEvent: T): BaseRequest {
-    const event = this.pathMethodGetter(preEvent);
-    const method = event.httpMethod.toUpperCase() as HttpMethod;
-    let path = event.path.trim();
-    if (path.endsWith("/")) {
-      path = path.substring(0, path.length - 1);
-    }
-    return {httpMethod: method, path}
-  }
+  constructor(
+    private pathMethodGetter: (req: T) => BaseRequest,
+    private requestFactory: RouterRequestFactory<T>,
+    private resultFactory: RouterResultFactory<U>,
+    private routes: Route[]
+  ) {}
   async exec(event: T, context: V): Promise<U> {
     const result = await this.execInternal(event, context);
     return this.resultFactory(result);
   }
   private async execInternal(event: T, context: V): Promise<RouterResult> {
-    const {httpMethod: method, path} = this.getPathAndMethod(event)
+    const { httpMethod: method, path } = this.pathMethodGetter(event);
     try {
       console.info(`Routing request: ${path}`);
       for await (const route of this.routes) {

@@ -1,10 +1,17 @@
 {
   "name": "simple-router",
   "version": "1.0.0",
-  "description": "Regex-based path routing",
+  "description": "Regex-based path routing for HTTP requests",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./node_modules/jest/bin/jest.js --config ./jest.config.js --runInBand --no-cache",
+    "test-debug": "node --inspect ./node_modules/jest/bin/jest.js --config ./jest.config.js --runInBand --no-cache --watch",
+    "prettier": "prettier --write --config .prettierrc.js ./src/**/*.ts ./src/**/*.test.ts",
+    "prettier-check": "prettier --config .prettierrc.js src/**/*.ts -l",
+    "check-ts": "tsc --project ./tsconfig.json --noEmit",
+    "lint-check": "node ./node_modules/eslint/bin/eslint.js src/**/*.ts",
+    "check": "pnpm run prettier-check && pnpm run lint-check && pnpm run check-ts && pnpm run test",
+    "build": "rm -rf ./dist || true && tsc --project ./tsconfig.build.json && cp ./package.json ./dist/package.json"
   },
   "repository": {
     "type": "git",

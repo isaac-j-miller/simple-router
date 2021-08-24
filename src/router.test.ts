@@ -1,9 +1,40 @@
 import sinon from "sinon";
-import { ALBResult } from "aws-lambda";
+import { ALBResult, ALBEvent } from "aws-lambda";
 import { Router } from ".";
-import { RouterRequest, Route } from "./types";
+import {
+  RouterRequest,
+  Route,
+  RouterRequestFactory,
+  RouterResultFactory,
+  BaseRequest,
+  HttpMethod,
+} from "./types";
+import { normalizePath } from "./util";
 
 describe("router routes correctly", () => {
+  const requestFactory: RouterRequestFactory<ALBEvent> = (event, paramFn) => {
+    const modifiedPath = normalizePath(event.path);
+    const params = paramFn(modifiedPath);
+    return {
+      params,
+      path: modifiedPath,
+      headers: event.headers ?? {},
+      multiValueHeaders: event.multiValueHeaders ?? {},
+      query: event.queryStringParameters,
+      method: event.httpMethod.toUpperCase() as unknown as HttpMethod,
+      requestContext: event.requestContext,
+    };
+  };
+  const resultFactory: RouterResultFactory<ALBResult> = res => {
+    return res;
+  };
+  const pathMethodGetter = (r: ALBEvent): BaseRequest => {
+    return {
+      httpMethod: r.httpMethod.toUpperCase() as HttpMethod,
+      path: normalizePath(r.path),
+    };
+  };
+
   const syncHandler = sinon.stub().returns({
     statusCode: 418,
   } as ALBResult);
@@ -53,7 +84,7 @@ describe("router routes correctly", () => {
       handler: paramsSyncHandler,
     },
   ];
-  const router = new Router(routes);
+  const router = new Router(pathMethodGetter, requestFactory, resultFactory, routes);
   const requestContext = {
     elb: {
       targetGroupArn: "",
@@ -208,7 +239,7 @@ describe("router routes correctly", () => {
     );
     expect(paramsSyncHandler.calledOnce).toEqual(true);
     // eslint-disable-next-line camelcase
-    const firstArg: AlbRequest<{ test1: string; param: string; underscore_param: string }> =
+    const firstArg: RouterRequest<{ test1: string; param: string; underscore_param: string }> =
       paramsSyncHandler.firstCall.args[0];
     const { params } = firstArg;
     expect(params.test1).toEqual("foo");
@@ -231,7 +262,7 @@ describe("router routes correctly", () => {
     );
     expect(paramsSyncHandler.calledOnce).toEqual(true);
     // eslint-disable-next-line camelcase
-    const firstArg: AlbRequest<{ test1: string; param: string; underscore_param: string }> =
+    const firstArg: RouterRequest<{ test1: string; param: string; underscore_param: string }> =
       paramsSyncHandler.firstCall.args[0];
     const { params } = firstArg;
     expect(params.test1).toEqual("foo");

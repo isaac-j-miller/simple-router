@@ -1,0 +1,31 @@
+name: PR-CI
+
+# Controls when the workflow will run
+on:
+  push:
+    branches: *
+  pull_request:
+    branches: *
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Install with pnpm
+        run: curl -f https://get.pnpm.io/v6.7.js | node - add --global pnpm && pnpm install
+
+      # Runs a set of commands using the runners shell
+      - name: Prettier, jest, lint, static type check
+        run: pnpm check

@@ -4,6 +4,7 @@
     "module": "commonjs",
     "target": "es2019",
     "jsx": "react",
+    "declaration": true,
     "strict": true,
     "allowJs": false,
     "sourceMap": true,
@@ -28,7 +29,8 @@
       "src/*": ["./src/*"],
     },
     "lib": ["dom", "scripthost", "es2019"],
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types"],
+    "outDir": "./dist"
   },
-  "exclude": ["**/dist/**"]
+  "exclude": ["**/dist/**"],
 }
