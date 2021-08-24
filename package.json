@@ -1,5 +1,5 @@
 {
-  "name": "simple-router",
+  "name": "alb-regex-router",
   "version": "1.0.0",
   "description": "Regex-based path routing for HTTP requests",
   "main": "index.js",
